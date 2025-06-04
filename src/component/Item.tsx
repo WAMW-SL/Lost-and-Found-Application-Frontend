@@ -1,11 +1,23 @@
+import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { GetAllReports} from "../service/Item/Item";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 export const Item=()=>{
     const tHeadings:String[]=[
         "ReportID","UserID","Item Name","Category","Description","Brand","Colour","Found Date","Last Seen Date","Found Location","Last Seen Location","Private Details","Status"
     ]
+
+    useEffect(()=>{
+        const loadData=async()=>{
+            const getAllReports=await GetAllReports()
+            console.log("Get All Reports",getAllReports)
+        };
+        loadData();
+    },[])
+
      return (
-    <Table striped bordered hover variant="dark">
+    <Table striped bordered hover variant="dark" style={{position:"absolute",top:"130px"}}>
       <thead>
         <tr>
           {tHeadings.map((headings)=>(
