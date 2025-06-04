@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 export const Item = () => {
     const tHeadings: String[] = [
-        "ReportID", "UserID", "Item Name", "Category", "Description", "Brand", "Colour", "Found Date", "Last Seen Date", "Found Location", "Last Seen Location", "Private Details", "Status"
+        "ReportID","UserID", "Item Name", "Category", "Description", "Brand", "Colour", "Found Date", "Last Seen Date", "Found Location", "Last Seen Location", "Private Details", "Status"
     ]
 
     enum ItemCategory {
@@ -16,18 +16,18 @@ export const Item = () => {
     }
 
     interface Report {
-        reportId:String;
-        userId: String;
-        itemName: String;
+        reportId:string;
+        userId: string;
+        itemName: string;
         category: ItemCategory;
-        description: String;
-        brand: String;
-        colour: String;
-        foundDate: String;
-        lastSeenDate: String;
-        foundLocation: String;
-        lastSeenLocation: String;
-        privateDetails: String;
+        description: string;
+        brand: string;
+        colour: string;
+        foundDate: string;
+        lastSeenDate: string;
+        foundLocation: string;
+        lastSeenLocation: string;
+        privateDetails: string;
         status:ItemStatus;
     }
 
@@ -52,7 +52,12 @@ export const Item = () => {
                 </tr>
             </thead>
             <tbody>
-                   
+                {reports.map((row)=>(
+                <tr key={row.reportId}>
+                    {Object.values(row).map((cell,index)=>(
+                        <td key={index}>{cell}</td>
+                    ))}
+                </tr>))}  
             </tbody>
         </Table>
     );
