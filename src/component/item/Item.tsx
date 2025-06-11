@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { GetAllItemsOfSelectedGroup, GetAllReports } from "../service/Item/Item";
+import { Button, Table } from "react-bootstrap";
+import { GetAllItemsOfSelectedGroup, GetAllReports } from "../../service/Item/Item";
 import Dropdown from 'react-bootstrap/Dropdown';
+import { AddReport } from "./AddReport";
 
 export const Item = () => {
     const tHeadings: String[] = [
@@ -34,6 +35,7 @@ export const Item = () => {
     }
 
     const [reports, setReports] = useState<Report[]>([])
+    const [showAddForm, setShowAddForm] = useState(false)
 
     const loadData = async () => {
         const getAllReports = await GetAllReports()
@@ -53,8 +55,11 @@ export const Item = () => {
 
 
 
+
+
     return (
         <>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Report</Button>
             <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
                 <Dropdown.Toggle variant="info" id="dropdown-basic">
                     Item Status
@@ -84,6 +89,10 @@ export const Item = () => {
                         </tr>))}
                 </tbody>
             </Table>
+
+            <AddReport
+                show={showAddForm}
+            />
         </>
     );
 }
