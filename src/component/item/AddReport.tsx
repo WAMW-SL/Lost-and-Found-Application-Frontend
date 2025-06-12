@@ -1,8 +1,8 @@
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
 
-export const AddReport = ({ show }: any) => {
+export const AddReport = ({ show,handleClose }: any) => {
     return (<>
-        <Modal show={show}>
+        <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Add Report</Modal.Title>
             </Modal.Header>
@@ -99,7 +99,7 @@ export const AddReport = ({ show }: any) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger">
+                <Button variant="danger" onClick={handleClose}>
                     Close
                 </Button>
                 <Button variant="success">

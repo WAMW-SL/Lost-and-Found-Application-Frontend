@@ -92,6 +92,7 @@ export const Item = () => {
 
             <AddReport
                 show={showAddForm}
+                handleClose={()=>setShowAddForm(false)}
             />
         </>
     );
