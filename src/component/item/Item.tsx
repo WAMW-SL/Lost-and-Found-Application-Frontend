@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
-import { GetAllItemsOfSelectedGroup, GetAllReports } from "../../service/Item/Item";
+import { AddNewReport, GetAllItemsOfSelectedGroup, GetAllReports } from "../../service/Item/Item";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { AddReport } from "./AddReport";
 
@@ -53,7 +53,9 @@ export const Item = () => {
         console.log(getAllItemsOfSelectedGroup)
     }
 
-
+    const handleSavedReport=(savedReport:Report)=>{
+        setReports((prev)=>[...prev,savedReport])
+    }
 
 
 
@@ -93,6 +95,8 @@ export const Item = () => {
             <AddReport
                 show={showAddForm}
                 handleClose={()=>setShowAddForm(false)}
+                addReport={AddNewReport}
+                handleSavedReport={handleSavedReport}
             />
         </>
     );
