@@ -55,3 +55,11 @@ export const AddNewReport = async (report: Report) => {
         console.error(error)
     }
 }
+
+export const DeleteReport=async(reportId:String)=>{
+    try {
+        await axios.delete(`${baseUrl}/${reportId}`)
+    } catch (error) {
+        console.error(error)
+    }
+}
