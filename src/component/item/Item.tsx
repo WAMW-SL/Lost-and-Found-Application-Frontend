@@ -36,6 +36,8 @@ export const Item = () => {
 
     const [reports, setReports] = useState<Report[]>([])
     const [showAddForm, setShowAddForm] = useState(false)
+    const [button, setButton] = useState(true)
+    const [selectedReport,setSelectedReport]=useState<Report>()
 
     const loadData = async () => {
         const getAllReports = await GetAllReports()
@@ -53,15 +55,19 @@ export const Item = () => {
         console.log(getAllItemsOfSelectedGroup)
     }
 
-    const handleSavedReport=(savedReport:Report)=>{
-        setReports((prev)=>[...prev,savedReport])
+    const handleSavedReport = (savedReport: Report) => {
+        setReports((prev) => [...prev, savedReport])
     }
 
-
+    const handleSelectedRow = (row: Report) => {
+        setSelectedReport(row)
+        setButton(false)
+    }
 
     return (
         <>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Report</Button>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button}>Delete</Button>
             <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
                 <Dropdown.Toggle variant="info" id="dropdown-basic">
                     Item Status
@@ -74,19 +80,19 @@ export const Item = () => {
                     <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(ItemStatus.CLAIMED)}>Claimed</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
-            <Table striped bordered hover variant="dark" style={{ position: "absolute", top: "130px" }}>
+            <Table bordered hover style={{ position: "absolute", top: "130px" }}>
                 <thead>
                     <tr>
                         {tHeadings.map((headings) => (
-                            <th>{headings}</th>
+                            <th style={{backgroundColor:"#E0FFFF"}}>{headings}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     {reports.map((row) => (
-                        <tr key={row.reportId}>
+                        <tr key={row.reportId} onClick={() => handleSelectedRow(row)} >
                             {Object.values(row).map((cell, index) => (
-                                <td key={index}>{cell}</td>
+                                <td key={index} style={{backgroundColor:row===selectedReport?"aqua":"#E0FFFF"}}>{cell}</td>
                             ))}
                         </tr>))}
                 </tbody>
@@ -94,7 +100,7 @@ export const Item = () => {
 
             <AddReport
                 show={showAddForm}
-                handleClose={()=>setShowAddForm(false)}
+                handleClose={() => setShowAddForm(false)}
                 addReport={AddNewReport}
                 handleSavedReport={handleSavedReport}
             />
