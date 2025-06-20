@@ -1,15 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { GetAllRequests } from "../../service/Request/Request";
+
+enum RequestStatus{
+  PENDING="PENDING",
+  APPROVED="APPROVED",
+  REJECTED="REJECTED"
+}
+
+interface Request{
+  requestId:String
+  fullDescription:String
+  requestStatus:RequestStatus
+  userId:String
+}
 
 export const Request=()=>{
     const tHeadings:String[]=[
         "Request ID","Full Description","Status","User ID"
     ]
 
+    const[requests,setRequests]=useState<Request[]>([])
+
     useEffect(()=>{
         const loadData=async()=>{
             const getAllRequests=await GetAllRequests()
+            setRequests(getAllRequests)
             console.log("Get All Requests",getAllRequests)
         };
         loadData();
