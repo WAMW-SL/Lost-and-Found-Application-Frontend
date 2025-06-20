@@ -9,10 +9,10 @@ enum RequestStatus{
 }
 
 interface Request{
-  requestId:String
-  fullDescription:String
+  requestId:string
+  fullDescription:string
   requestStatus:RequestStatus
-  userId:String
+  userId:string
 }
 
 export const Request=()=>{
@@ -41,23 +41,12 @@ export const Request=()=>{
         </tr>
       </thead>
       <tbody>
-        {/* <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr> */}
+        {requests.map((row)=>(
+                <tr key={row.requestId}>
+                    {Object.values(row).map((cell,index)=>(
+                        <td key={index}>{cell}</td>
+                    ))}
+                </tr>))}  
       </tbody>
     </Table>
   );
