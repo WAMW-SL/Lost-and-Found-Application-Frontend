@@ -74,6 +74,7 @@ export const Request = () => {
       </Table>
       <AddRequest
       show={showAddForm}
+      handleClose={()=>setShowAddForm(false)}
       />
     </>
   );
