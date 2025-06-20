@@ -131,6 +131,7 @@ export const Item = () => {
             <EditReport
                 show={showEditForm}
                 selectedReport={selectedReport}
+                handleClose={()=>setShowEditForm(false)}
             />
         </>
     );

@@ -29,9 +29,10 @@ enum ItemStatus {
 interface ReportProps {
     show: boolean
     selectedReport: Report
+    handleClose:()=>void
 }
 
-export const EditReport = ({ show, selectedReport }: ReportProps) => {
+export const EditReport = ({ show, selectedReport,handleClose }: ReportProps) => {
 
     const [report,setReport]=useState<Report>({
         reportId: "",
@@ -65,7 +66,7 @@ export const EditReport = ({ show, selectedReport }: ReportProps) => {
 
     return (
         <>
-            <Modal show={show} >
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Report</Modal.Title>
                 </Modal.Header>
@@ -200,7 +201,7 @@ export const EditReport = ({ show, selectedReport }: ReportProps) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" >
+                    <Button variant="secondary" onClick={handleClose} >
                         Close
                     </Button>
                     <Button variant="primary" >
