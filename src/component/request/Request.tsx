@@ -1,11 +1,22 @@
+import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { GetAllRequests } from "../../service/Request/Request";
 
 export const Request=()=>{
     const tHeadings:String[]=[
         "Request ID","Full Description","Status","User ID"
     ]
+
+    useEffect(()=>{
+        const loadData=async()=>{
+            const getAllRequests=await GetAllRequests()
+            console.log("Get All Requests",getAllRequests)
+        };
+        loadData();
+    },[])
+
      return (
-    <Table striped bordered hover variant="dark">
+    <Table striped bordered hover variant="dark" style={{position:"absolute",top:"130px"}}>
       <thead>
         <tr>
           {tHeadings.map((headings)=>(
