@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Table } from "react-bootstrap";
-import { GetAllRequests, GetAllRequestsOfSelectedGroup } from "../../service/Request/Request";
+import { AddNewRequest, GetAllRequests, GetAllRequestsOfSelectedGroup } from "../../service/Request/Request";
 import { AddRequest } from "./AddRequest";
 
 enum RequestStatus {
@@ -40,6 +40,10 @@ export const Request = () => {
     console.log(getAllRequestsOfSelectedGroup)
   }
 
+  const handleSavedRequest=(savedRequest:Request)=>{
+        setRequests((prev)=>[...prev,savedRequest])
+    }
+
   return (
     <>
       <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Request</Button>
@@ -75,6 +79,8 @@ export const Request = () => {
       <AddRequest
       show={showAddForm}
       handleClose={()=>setShowAddForm(false)}
+      addRequest={AddNewRequest}
+      handleSavedRequest={handleSavedRequest}
       />
     </>
   );
