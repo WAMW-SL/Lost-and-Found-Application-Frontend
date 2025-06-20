@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Dropdown, Table } from "react-bootstrap";
+import { Button, Dropdown, Table } from "react-bootstrap";
 import { GetAllRequests, GetAllRequestsOfSelectedGroup } from "../../service/Request/Request";
+import { AddRequest } from "./AddRequest";
 
 enum RequestStatus {
   PENDING = "PENDING",
@@ -21,6 +22,7 @@ export const Request = () => {
   ]
 
   const [requests, setRequests] = useState<Request[]>([])
+  const [showAddForm,setShowAddForm]=useState(false)
 
   const loadData = async () => {
     const getAllRequests = await GetAllRequests()
@@ -40,6 +42,7 @@ export const Request = () => {
 
   return (
     <>
+      <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Request</Button>
       <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
         <Dropdown.Toggle variant="info" id="dropdown-basic">
           Request Status
@@ -69,6 +72,9 @@ export const Request = () => {
             </tr>))}
         </tbody>
       </Table>
+      <AddRequest
+      show={showAddForm}
+      />
     </>
   );
 }
