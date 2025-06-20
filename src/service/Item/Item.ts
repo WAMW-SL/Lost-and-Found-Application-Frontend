@@ -24,7 +24,7 @@ interface Report {
     foundLocation: string;
     lastSeenLocation: string;
     privateDetails: string;
-    status: ItemStatus;
+    itemStatus: ItemStatus;
 }
 
 export const GetAllReports = async () => {
@@ -61,5 +61,13 @@ export const DeleteReport=async(reportId:String)=>{
         await axios.delete(`${baseUrl}/${reportId}`)
     } catch (error) {
         console.error(error)
+    }
+}
+
+export const UpdateReport=async(report:Report)=>{
+    try {
+        await axios.patch(`${baseUrl}`,report)
+    } catch (error) {
+        console.log(error)
     }
 }

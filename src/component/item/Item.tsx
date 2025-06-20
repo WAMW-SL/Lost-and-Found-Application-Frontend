@@ -86,6 +86,11 @@ export const Item = () => {
         setButton(true)
     }
 
+    const handleUpdatedReport=(updatedReport:Report)=>{
+        const newReportList=reports.map((report)=>report.reportId===updatedReport.reportId?updatedReport:report)
+        setReports(newReportList)
+        setButton(true)
+    }
 
     return (
         <>
@@ -132,6 +137,7 @@ export const Item = () => {
                 show={showEditForm}
                 selectedReport={selectedReport}
                 handleClose={()=>setShowEditForm(false)}
+                handleUpdatedReport={handleUpdatedReport}
             />
         </>
     );

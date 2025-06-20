@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
+import { UpdateReport } from "../../service/Item/Item";
 interface Report {
     reportId: string;
     userId: string;
@@ -29,12 +30,13 @@ enum ItemStatus {
 interface ReportProps {
     show: boolean
     selectedReport: Report
-    handleClose:()=>void
+    handleClose: () => void
+    handleUpdatedReport: (updatedReport: Report) => void
 }
 
-export const EditReport = ({ show, selectedReport,handleClose }: ReportProps) => {
+export const EditReport = ({ show, selectedReport, handleClose, handleUpdatedReport }: ReportProps) => {
 
-    const [report,setReport]=useState<Report>({
+    const [report, setReport] = useState<Report>({
         reportId: "",
         userId: "",
         itemName: "",
@@ -50,18 +52,25 @@ export const EditReport = ({ show, selectedReport,handleClose }: ReportProps) =>
         itemStatus: ItemStatus.FOUND
     })
 
-    useEffect(()=>{
-        setReport(selectedReport)},[selectedReport]
+    useEffect(() => {
+        setReport(selectedReport)
+    }, [selectedReport]
     )
 
-    const handleInputElements=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        const {name,value}=e.target
-        setReport((prev)=>({...prev,[name]:value}))
+    const handleInputElements = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        setReport((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleSelectMenu=(e:React.ChangeEvent<HTMLSelectElement>)=>{
-        const{name,value}=e.target 
-        setReport((prev)=>({...prev,[name]:value}))
+    const handleSelectMenu = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target
+        setReport((prev) => ({ ...prev, [name]: value }))
+    }
+
+    const handleUpdate = async (report: Report) => {
+            await UpdateReport(report)
+            handleUpdatedReport(report) 
+            handleClose()           
     }
 
     return (
@@ -75,11 +84,9 @@ export const EditReport = ({ show, selectedReport,handleClose }: ReportProps) =>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Report ID</Form.Label>
                             <Form.Control
-                                type="email"
                                 value={report.reportId}
                                 placeholder="Report ID"
                                 readOnly
-                                autoFocus
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -201,10 +208,10 @@ export const EditReport = ({ show, selectedReport,handleClose }: ReportProps) =>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose} >
+                    <Button variant="danger" onClick={handleClose} >
                         Close
                     </Button>
-                    <Button variant="primary" >
+                    <Button variant="success" onClick={() => handleUpdate(report)}>
                         Update
                     </Button>
                 </Modal.Footer>
