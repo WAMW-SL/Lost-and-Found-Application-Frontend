@@ -2,8 +2,7 @@ import { Console } from "console";
 import { ReactEventHandler, useState } from "react"
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
 
-export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: any) => {
-    interface Report {
+interface Report {
         reportId: string;
         userId: string;
         itemName: string;
@@ -22,12 +21,15 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
     enum ItemCategory {
         STATIONERY, KEYS, ELECTRONICS, ID_CARDS
     }
+
     enum ItemStatus {
         LOST="LOST",
         FOUND="FOUND",
         CLAIMED="CLAIMED"
     }
 
+export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: any) => {
+    
     const [newReport, setnewReport] = useState<Report>({
         reportId: "",
         userId: "",
@@ -44,7 +46,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
         itemStatus: ItemStatus.FOUND
     });
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputElements = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setnewReport((prev) => ({ ...prev, [name]: value }))
     }
@@ -74,7 +76,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             placeholder="User ID"
                             name="userId"
                             value={newReport.userId}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -84,7 +86,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             placeholder="Item Name"
                             name="itemName"
                             value={newReport.itemName}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -106,7 +108,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             as="textarea"
                             name="description"
                             value={newReport.description}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -116,7 +118,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             placeholder="Brand"
                             name="brand"
                             value={newReport.brand}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -126,7 +128,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             placeholder="Colour"
                             name="colour"
                             value={newReport.colour}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -136,7 +138,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             type="date"
                             name="foundDate"
                             value={newReport.foundDate}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -146,7 +148,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             type="date"
                             name="lastSeenDate"
                             value={newReport.lastSeenDate}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -156,7 +158,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             placeholder="Found Location"
                             name="foundLocation"
                             value={newReport.foundLocation}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -166,7 +168,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             placeholder="Last seen Location"
                             name="lastSeenLocation"
                             value={newReport.lastSeenLocation}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
@@ -177,7 +179,7 @@ export const AddReport = ({ show, handleClose, addReport,handleSavedReport }: an
                             as="textarea"
                             name="privateDetails"
                             value={newReport.privateDetails}
-                            onChange={handleOnChange}
+                            onChange={handleInputElements}
                             autoFocus
                         />
                     </Form.Group>
