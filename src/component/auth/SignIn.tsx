@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { SignInReq } from "../../service/AuthProcess/Auth";
 
 interface SignIn {
   email: string;
@@ -29,6 +30,8 @@ const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=>{
 const handleOnSubmit = async (e:React.ChangeEvent<HTMLFormElement>) =>{
     e.preventDefault();
     console.log(JSON.stringify(signIn))
+    const token = await SignInReq(signIn)
+    console.log(token)
 }
   return (
     <>

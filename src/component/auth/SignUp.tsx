@@ -41,7 +41,8 @@ const handleOnChange = (e :React.ChangeEvent<HTMLInputElement | HTMLSelectElemen
 
 const handleOnSubmit = async() =>{
     console.log(JSON.stringify(signUp))
-    await SignUpReq(signUp)
+    const token = await SignUpReq(signUp)
+    console.log(token)
     handleReset();
 } 
 
