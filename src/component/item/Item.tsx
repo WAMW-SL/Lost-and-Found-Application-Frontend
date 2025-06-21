@@ -4,6 +4,9 @@ import { AddNewReport, DeleteReport, GetAllItemsOfSelectedGroup, GetAllReports }
 import Dropdown from 'react-bootstrap/Dropdown';
 import { AddReport } from "./AddReport";
 import { EditReport } from "./EditReport";
+import { useNavigate } from "react-router";
+import { useAuth } from "../auth/AuthProvider";
+import { UnAuth } from "../UnAuth";
 
 export const Item = () => {
     const tHeadings: String[] = [
@@ -54,11 +57,16 @@ export const Item = () => {
         itemStatus: ItemStatus.FOUND
     })
     const [showEditForm, setShowEditForm] = useState(false)
+    const navigate = useNavigate()
+    const { isAuthenticated } = useAuth();
 
     const loadData = async () => {
-        const getAllReports = await GetAllReports()
-        setReports(getAllReports)
-        console.log("Get All Reports", getAllReports)
+        if (isAuthenticated) {
+            const getAllReports = await GetAllReports()
+            setReports(getAllReports)
+            console.log("Get All Reports", getAllReports)
+        }
+        navigate("/signin")
     }
 
     useEffect(() => {
@@ -86,8 +94,8 @@ export const Item = () => {
         setButton(true)
     }
 
-    const handleUpdatedReport=(updatedReport:Report)=>{
-        const newReportList=reports.map((report)=>report.reportId===updatedReport.reportId?updatedReport:report)
+    const handleUpdatedReport = (updatedReport: Report) => {
+        const newReportList = reports.map((report) => report.reportId === updatedReport.reportId ? updatedReport : report)
         setReports(newReportList)
         setButton(true)
     }
@@ -96,7 +104,7 @@ export const Item = () => {
         <>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Report</Button>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button} onClick={() => handleOnDelete(selectedReport.reportId)}>Delete</Button>
-            <Button variant="info" style={{ position: "absolute", top: "75px", left: "700px" }} disabled={button} onClick={() => {setShowEditForm(true)}}>Edit</Button>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "700px" }} disabled={button} onClick={() => { setShowEditForm(true) }}>Edit</Button>
             <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
                 <Dropdown.Toggle variant="info" id="dropdown-basic">
                     Item Status
@@ -109,7 +117,7 @@ export const Item = () => {
                     <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(ItemStatus.CLAIMED)}>Claimed</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
-            <Table bordered hover style={{ position: "absolute", top: "130px" }}>
+            {isAuthenticated ? (<Table bordered hover style={{ position: "absolute", top: "130px" }}>
                 <thead>
                     <tr>
                         {tHeadings.map((headings) => (
@@ -125,7 +133,7 @@ export const Item = () => {
                             ))}
                         </tr>))}
                 </tbody>
-            </Table>
+            </Table>) : (<UnAuth />)}
 
             <AddReport
                 show={showAddForm}
@@ -136,7 +144,7 @@ export const Item = () => {
             <EditReport
                 show={showEditForm}
                 selectedReport={selectedReport}
-                handleClose={()=>setShowEditForm(false)}
+                handleClose={() => setShowEditForm(false)}
                 handleUpdatedReport={handleUpdatedReport}
             />
         </>
