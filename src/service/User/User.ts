@@ -43,3 +43,11 @@ export const AddNewUser=async(user:User)=>{
         console.error(error)
     }
 }
+
+export const DeleteUser=async(userId:String)=>{
+    try {
+        await axios.delete(`${baseUrl}/${userId}`)
+    } catch (error) {
+        console.error(error)
+    }
+}

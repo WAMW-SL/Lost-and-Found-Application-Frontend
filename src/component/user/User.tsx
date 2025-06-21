@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Table } from "react-bootstrap";
-import { AddNewUser, GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
+import { AddNewUser, DeleteUser, GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
 import { AddUser } from "./AddUser";
 
 enum UserRole {
@@ -29,9 +29,13 @@ export const User = () => {
     }, [])
 
     const [users, setUsers] = useState<User[]>([])
-    const [showAddForm,setShowAddForm]=useState(false)
+    const [showAddForm, setShowAddForm] = useState(false)
     const [button, setButton] = useState(true)
-    const [selectedUser,setSelectedUser]=useState<User>()
+    const [selectedUser, setSelectedUser] = useState<User>({
+        userId: "",
+        userName: "",
+        role: UserRole.USER
+    })
 
     const handleDropdown = async (userRole: UserRole) => {
         const getAllUsersOfSelectedGroup = await GetAllUsersOfSelectedGroup(userRole)
@@ -39,8 +43,8 @@ export const User = () => {
         console.log(getAllUsersOfSelectedGroup)
     }
 
-    const handleSavedUser=(savedUser:User)=>{
-        setUsers((prev)=>[...prev,savedUser])
+    const handleSavedUser = (savedUser: User) => {
+        setUsers((prev) => [...prev, savedUser])
     }
 
     const handleSelectedRow = (row: User) => {
@@ -48,45 +52,51 @@ export const User = () => {
         setButton(false)
     }
 
+    const handleOnDelete = async (userId: String) => {
+        await DeleteUser(userId)
+        setUsers(users.filter((user) => user.userId !== userId))
+        setButton(true)
+    }
+
     return (
         <>
-        <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
-        <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button}>Delete</Button>
-        <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
-        <Dropdown.Toggle variant="info" id="dropdown-basic">
-          User Role
-        </Dropdown.Toggle>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button} onClick={() => handleOnDelete(selectedUser.userId)}>Delete</Button>
+            <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
+                <Dropdown.Toggle variant="info" id="dropdown-basic">
+                    User Role
+                </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-          <Dropdown.Item href="#/action-3" onClick={() => loadData()}>All</Dropdown.Item>
-          <Dropdown.Item href="#/action-1" onClick={() => handleDropdown(UserRole.ADMIN)}>ADMIN</Dropdown.Item>
-          <Dropdown.Item href="#/action-2" onClick={() => handleDropdown(UserRole.STAFF)}>STAFF</Dropdown.Item>
-          <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(UserRole.USER)}>USER</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-        <Table bordered hover style={{position:"absolute",top:"130px"}}>
-      <thead>
-        <tr>
-          {tHeadings.map((headings)=>(
-            <th style={{backgroundColor:"#E0FFFF"}}>{headings}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((row)=>(
-                <tr key={row.userId} onClick={() => handleSelectedRow(row)}>
-                    {Object.values(row).map((cell,index)=>(
-                        <td key={index} style={{backgroundColor:row===selectedUser?"aqua":"#E0FFFF"}}>{cell}</td>
-                    ))}
-                </tr>))}  
-      </tbody>
-    </Table>
-    <AddUser
-        show={showAddForm}
-        handleClose={()=>setShowAddForm(false)}
-        addUser={AddNewUser}
-        handleSavedUser={handleSavedUser}
-    />
-    </>
+                <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-3" onClick={() => loadData()}>All</Dropdown.Item>
+                    <Dropdown.Item href="#/action-1" onClick={() => handleDropdown(UserRole.ADMIN)}>ADMIN</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2" onClick={() => handleDropdown(UserRole.STAFF)}>STAFF</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(UserRole.USER)}>USER</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+            <Table bordered hover style={{ position: "absolute", top: "130px" }}>
+                <thead>
+                    <tr>
+                        {tHeadings.map((headings) => (
+                            <th style={{ backgroundColor: "#E0FFFF" }}>{headings}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((row) => (
+                        <tr key={row.userId} onClick={() => handleSelectedRow(row)}>
+                            {Object.values(row).map((cell, index) => (
+                                <td key={index} style={{ backgroundColor: row === selectedUser ? "aqua" : "#E0FFFF" }}>{cell}</td>
+                            ))}
+                        </tr>))}
+                </tbody>
+            </Table>
+            <AddUser
+                show={showAddForm}
+                handleClose={() => setShowAddForm(false)}
+                addUser={AddNewUser}
+                handleSavedUser={handleSavedUser}
+            />
+        </>
     );
 }
