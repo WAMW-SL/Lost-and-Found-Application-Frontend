@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { UpdateRequest } from "../../service/Request/Request";
 
 interface RequestProps {
     show: boolean
     selectedRequest: Request
     handleClose:()=>void
+    handleUpdatedRequest:(updatedRequest:Request)=>void
 }
 
 enum RequestStatus {
@@ -20,7 +22,7 @@ interface Request {
     userId: string
 }
 
-export const EditRequest = ({ show, selectedRequest,handleClose}: RequestProps) => {
+export const EditRequest = ({ show, selectedRequest,handleClose,handleUpdatedRequest}: RequestProps) => {
     const [request,setRequest]=useState<Request>({
         requestId:"",
         fullDescription:"",
@@ -40,6 +42,12 @@ export const EditRequest = ({ show, selectedRequest,handleClose}: RequestProps) 
     const handleSelectMenu=(e:React.ChangeEvent<HTMLSelectElement>)=>{
         const{name,value}=e.target 
         setRequest((prev)=>({...prev,[name]:value}))
+    }
+
+     const handleUpdate = async (request:Request) => {
+            await UpdateRequest(request)
+            handleUpdatedRequest(request) 
+            handleClose()           
     }
 
     return (
@@ -89,7 +97,7 @@ export const EditRequest = ({ show, selectedRequest,handleClose}: RequestProps) 
                     <Button variant="danger" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="success" >
+                    <Button variant="success" onClick={()=>handleUpdate(request)}>
                         Update
                     </Button>
                 </Modal.Footer>

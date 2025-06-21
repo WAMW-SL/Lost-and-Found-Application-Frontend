@@ -63,6 +63,13 @@ export const Request = () => {
         setRequests(requests.filter((request)=>request.requestId!==requestId))
         setButton(true)
     }
+
+  const handleUpdatedRequest=(updatedRequest:Request)=>{
+    const newRequestList=requests.map((request)=>updatedRequest.requestId===request.requestId?updatedRequest:request)
+    setRequests(newRequestList)
+    setButton(true)
+  }
+
   return (
     <>
       <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Request</Button>
@@ -107,6 +114,7 @@ export const Request = () => {
         show={showEditForm}
         selectedRequest={selectedRequest}
         handleClose={()=>setShowEditForm(false)}
+        handleUpdatedRequest={handleUpdatedRequest}
       />
     </>
   );

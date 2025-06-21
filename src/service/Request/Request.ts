@@ -52,3 +52,11 @@ export const DeleteRequest=async(requestId:String)=>{
         console.error(error)
     }
 }
+
+export const UpdateRequest=async(request:Request)=>{
+    try {
+        await axios.patch(`${baseUrl}`,request)
+    } catch (error) {
+        console.log(error)
+    }
+}
