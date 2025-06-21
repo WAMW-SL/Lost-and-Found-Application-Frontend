@@ -71,7 +71,7 @@ export const AddRequest = ({ show, handleClose,addRequest,handleSavedRequest}: a
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Status</Form.Label>
-                        <FloatingLabel controlId="floatingSelect" label="Select a category">
+                        <FloatingLabel controlId="floatingSelect" label="Select a status">
                             <Form.Select aria-label="Floating label select example" value={newRequest.requestStatus} name="requestStatus" onChange={handleSelectMenu}>
                                 <option value="PENDING">PENDING</option>
                                 <option value="APPROVED">APPROVED</option>
