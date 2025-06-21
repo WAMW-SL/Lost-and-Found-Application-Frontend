@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Dropdown, Table } from "react-bootstrap";
 import { AddNewRequest, DeleteRequest, GetAllRequests, GetAllRequestsOfSelectedGroup } from "../../service/Request/Request";
 import { AddRequest } from "./AddRequest";
+import { EditRequest } from "./EditRequest";
 
 enum RequestStatus {
   PENDING = "PENDING",
@@ -30,6 +31,7 @@ export const Request = () => {
         requestStatus: RequestStatus.PENDING,
         userId: ""
     })
+   const [showEditForm, setShowEditForm] = useState(false)
 
   const loadData = async () => {
     const getAllRequests = await GetAllRequests()
@@ -65,6 +67,7 @@ export const Request = () => {
     <>
       <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Request</Button>
       <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button} onClick={()=>handleOnDelete(selectedRequest.requestId)}>Delete</Button>
+      <Button variant="info" style={{ position: "absolute", top: "75px", left: "700px" }} disabled={button} onClick={() => {setShowEditForm(true)}}>Edit</Button>
       <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
         <Dropdown.Toggle variant="info" id="dropdown-basic">
           Request Status
@@ -99,6 +102,10 @@ export const Request = () => {
       handleClose={()=>setShowAddForm(false)}
       addRequest={AddNewRequest}
       handleSavedRequest={handleSavedRequest}
+      />
+      <EditRequest
+        show={showEditForm}
+        selectedRequest={selectedRequest}
       />
     </>
   );
