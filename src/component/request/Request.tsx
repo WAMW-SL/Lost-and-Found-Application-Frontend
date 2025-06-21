@@ -106,6 +106,7 @@ export const Request = () => {
       <EditRequest
         show={showEditForm}
         selectedRequest={selectedRequest}
+        handleClose={()=>setShowEditForm(false)}
       />
     </>
   );

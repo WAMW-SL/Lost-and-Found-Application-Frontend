@@ -4,6 +4,7 @@ import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 interface RequestProps {
     show: boolean
     selectedRequest: Request
+    handleClose:()=>void
 }
 
 enum RequestStatus {
@@ -19,7 +20,7 @@ interface Request {
     userId: string
 }
 
-export const EditRequest = ({ show, selectedRequest }: RequestProps) => {
+export const EditRequest = ({ show, selectedRequest,handleClose}: RequestProps) => {
     const [request,setRequest]=useState<Request>({
         requestId:"",
         fullDescription:"",
@@ -43,9 +44,9 @@ export const EditRequest = ({ show, selectedRequest }: RequestProps) => {
 
     return (
         <>
-            <Modal show={show} >
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Report</Modal.Title>
+                    <Modal.Title>Edit Request</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -85,7 +86,7 @@ export const EditRequest = ({ show, selectedRequest }: RequestProps) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" >
+                    <Button variant="danger" onClick={handleClose}>
                         Close
                     </Button>
                     <Button variant="success" >
