@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Dropdown, Table } from "react-bootstrap";
+import { Button, Dropdown, Table } from "react-bootstrap";
 import { GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
+import { AddUser } from "./AddUser";
 
 enum UserRole {
     ADMIN = "ADMIN",
@@ -28,6 +29,7 @@ export const User = () => {
     }, [])
 
     const [users, setUsers] = useState<User[]>([])
+    const [showAddForm,setShowAddForm]=useState(false)
 
     const handleDropdown = async (userRole: UserRole) => {
         const getAllUsersOfSelectedGroup = await GetAllUsersOfSelectedGroup(userRole)
@@ -37,6 +39,7 @@ export const User = () => {
 
     return (
         <>
+        <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
         <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
         <Dropdown.Toggle variant="info" id="dropdown-basic">
           User Role
@@ -66,6 +69,9 @@ export const User = () => {
                 </tr>))}  
       </tbody>
     </Table>
+    <AddUser
+        show={showAddForm}
+    />
     </>
     );
 }
