@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { SignUpReq } from "../../service/AuthProcess/Auth";
+import { useAuth } from "./AuthProvider";
+import { useNavigate } from "react-router";
 
 interface SignUp {
     // userId: string;
@@ -26,6 +28,9 @@ const [ signUp, setSignUp] = useState<SignUp>({
     role: undefined
 })
 
+const { login} = useAuth();
+const navigate = useNavigate()
+
 const handleReset = () =>{
     setSignUp({
         userName:"",
@@ -42,8 +47,9 @@ const handleOnChange = (e :React.ChangeEvent<HTMLInputElement | HTMLSelectElemen
 const handleOnSubmit = async() =>{
     console.log(JSON.stringify(signUp))
     const token = await SignUpReq(signUp)
-    console.log(token)
+    login(token)
     handleReset();
+    navigate("/item")
 } 
 
   return (
