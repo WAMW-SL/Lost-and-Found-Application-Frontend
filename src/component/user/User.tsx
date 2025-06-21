@@ -71,6 +71,7 @@ export const User = () => {
     </Table>
     <AddUser
         show={showAddForm}
+        handleClose={()=>setShowAddForm(false)}
     />
     </>
     );
