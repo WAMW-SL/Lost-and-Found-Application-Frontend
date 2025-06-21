@@ -1,34 +1,54 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { GetAllUsers } from "../../service/User/User";
+import { Dropdown, Table } from "react-bootstrap";
+import { GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
 
-enum UserRole{
-    ADMIN="ADMIN",
-    STAFF="STAFF",
-    USER="USER"
+enum UserRole {
+    ADMIN = "ADMIN",
+    STAFF = "STAFF",
+    USER = "USER"
 }
-interface User{
-    userId:string,
-    userName:string,
-    role:UserRole
+interface User {
+    userId: string,
+    userName: string,
+    role: UserRole
 }
-export const User=()=>{
-    const tHeadings:String[]=[
-        "User ID","User Name","Role"
+export const User = () => {
+    const tHeadings: String[] = [
+        "User ID", "User Name", "Role"
     ]
 
-    useEffect(()=>{
-        const loadData=async()=>{
-            const getAllUsers=await GetAllUsers()
-            setUsers(getAllUsers)
-            console.log("Get All Users",getAllUsers)
-        };
+    const loadData = async () => {
+        const getAllUsers = await GetAllUsers()
+        setUsers(getAllUsers)
+        console.log("Get All Users", getAllUsers)
+    }
+
+    useEffect(() => {
         loadData();
-    },[])
+    }, [])
 
-    const[users,setUsers]=useState<User[]>([])
+    const [users, setUsers] = useState<User[]>([])
 
-    return(
+    const handleDropdown = async (userRole: UserRole) => {
+        const getAllUsersOfSelectedGroup = await GetAllUsersOfSelectedGroup(userRole)
+        setUsers(getAllUsersOfSelectedGroup)
+        console.log(getAllUsersOfSelectedGroup)
+    }
+
+    return (
+        <>
+        <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
+        <Dropdown.Toggle variant="info" id="dropdown-basic">
+          User Role
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item href="#/action-3" onClick={() => loadData()}>All</Dropdown.Item>
+          <Dropdown.Item href="#/action-1" onClick={() => handleDropdown(UserRole.ADMIN)}>ADMIN</Dropdown.Item>
+          <Dropdown.Item href="#/action-2" onClick={() => handleDropdown(UserRole.STAFF)}>STAFF</Dropdown.Item>
+          <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(UserRole.USER)}>USER</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
         <Table striped bordered hover variant="dark"  style={{position:"absolute",top:"130px"}}>
       <thead>
         <tr>
@@ -46,5 +66,6 @@ export const User=()=>{
                 </tr>))}  
       </tbody>
     </Table>
+    </>
     );
 }
