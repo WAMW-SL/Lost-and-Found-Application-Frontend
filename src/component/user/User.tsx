@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Dropdown, Table } from "react-bootstrap";
 import { AddNewUser, DeleteUser, GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
 import { AddUser } from "./AddUser";
+import { EditUser } from "./EditUser";
 
 enum UserRole {
     ADMIN = "ADMIN",
@@ -36,6 +37,7 @@ export const User = () => {
         userName: "",
         role: UserRole.USER
     })
+    const [showEditForm, setShowEditForm] = useState(false)
 
     const handleDropdown = async (userRole: UserRole) => {
         const getAllUsersOfSelectedGroup = await GetAllUsersOfSelectedGroup(userRole)
@@ -62,6 +64,7 @@ export const User = () => {
         <>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button} onClick={() => handleOnDelete(selectedUser.userId)}>Delete</Button>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "700px" }} disabled={button} onClick={() => {setShowEditForm(true)}}>Edit</Button>
             <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
                 <Dropdown.Toggle variant="info" id="dropdown-basic">
                     User Role
@@ -96,6 +99,10 @@ export const User = () => {
                 handleClose={() => setShowAddForm(false)}
                 addUser={AddNewUser}
                 handleSavedUser={handleSavedUser}
+            />
+            <EditUser
+                show={showEditForm}
+                selectedUser={selectedUser}
             />
         </>
     );
