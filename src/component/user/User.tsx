@@ -30,6 +30,8 @@ export const User = () => {
 
     const [users, setUsers] = useState<User[]>([])
     const [showAddForm,setShowAddForm]=useState(false)
+    const [button, setButton] = useState(true)
+    const [selectedUser,setSelectedUser]=useState<User>()
 
     const handleDropdown = async (userRole: UserRole) => {
         const getAllUsersOfSelectedGroup = await GetAllUsersOfSelectedGroup(userRole)
@@ -41,10 +43,15 @@ export const User = () => {
         setUsers((prev)=>[...prev,savedUser])
     }
 
+    const handleSelectedRow = (row: User) => {
+        setSelectedUser(row)
+        setButton(false)
+    }
 
     return (
         <>
         <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
+        <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button}>Delete</Button>
         <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
         <Dropdown.Toggle variant="info" id="dropdown-basic">
           User Role
@@ -57,19 +64,19 @@ export const User = () => {
           <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(UserRole.USER)}>USER</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-        <Table striped bordered hover variant="dark"  style={{position:"absolute",top:"130px"}}>
+        <Table bordered hover style={{position:"absolute",top:"130px"}}>
       <thead>
         <tr>
           {tHeadings.map((headings)=>(
-            <th>{headings}</th>
+            <th style={{backgroundColor:"#E0FFFF"}}>{headings}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {users.map((row)=>(
-                <tr key={row.userId}>
+                <tr key={row.userId} onClick={() => handleSelectedRow(row)}>
                     {Object.values(row).map((cell,index)=>(
-                        <td key={index}>{cell}</td>
+                        <td key={index} style={{backgroundColor:row===selectedUser?"aqua":"#E0FFFF"}}>{cell}</td>
                     ))}
                 </tr>))}  
       </tbody>
