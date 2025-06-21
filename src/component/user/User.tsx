@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Table } from "react-bootstrap";
-import { GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
+import { AddNewUser, GetAllUsers, GetAllUsersOfSelectedGroup } from "../../service/User/User";
 import { AddUser } from "./AddUser";
 
 enum UserRole {
@@ -37,6 +37,11 @@ export const User = () => {
         console.log(getAllUsersOfSelectedGroup)
     }
 
+    const handleSavedUser=(savedUser:User)=>{
+        setUsers((prev)=>[...prev,savedUser])
+    }
+
+
     return (
         <>
         <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
@@ -72,6 +77,8 @@ export const User = () => {
     <AddUser
         show={showAddForm}
         handleClose={()=>setShowAddForm(false)}
+        addUser={AddNewUser}
+        handleSavedUser={handleSavedUser}
     />
     </>
     );

@@ -8,6 +8,12 @@ enum UserRole {
     USER = "USER"
 }
 
+interface User {
+    userId: string,
+    userName: string,
+    role: UserRole
+}
+
 export const GetAllUsers=async()=>{
     try {
         const response=await axios.get(`${baseUrl}/getAll`);
@@ -21,6 +27,16 @@ export const GetAllUsers=async()=>{
 export const GetAllUsersOfSelectedGroup=async(userRole:UserRole)=>{
     try {
         const response=await axios.get(`${baseUrl}/getAll/${userRole}`);
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const AddNewUser=async(user:User)=>{
+    try {
+        const response=await axios.post(`${baseUrl}`,user);
         console.log(response.data)
         return response.data
     } catch (error) {
