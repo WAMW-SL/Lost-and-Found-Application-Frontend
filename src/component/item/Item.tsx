@@ -4,9 +4,6 @@ import { AddNewReport, DeleteReport, GetAllItemsOfSelectedGroup, GetAllReports }
 import Dropdown from 'react-bootstrap/Dropdown';
 import { AddReport } from "./AddReport";
 import { EditReport } from "./EditReport";
-import { useNavigate } from "react-router";
-import { useAuth } from "../auth/AuthProvider";
-import { UnAuth } from "../UnAuth";
 
 export const Item = () => {
     const tHeadings: String[] = [
@@ -57,20 +54,18 @@ export const Item = () => {
         itemStatus: ItemStatus.FOUND
     })
     const [showEditForm, setShowEditForm] = useState(false)
-    const navigate = useNavigate()
-    const { isAuthenticated } = useAuth();
 
     const loadData = async () => {
-        if (isAuthenticated) {
+
             const getAllReports = await GetAllReports();
             setReports(getAllReports);
             console.log("Get All Reports", getAllReports);
         }
-    }
+    
 
     useEffect(() => {
         loadData();
-    }, [isAuthenticated])
+    }, [])
 
     const handleDropdown = async (itemStatus: ItemStatus) => {
         const getAllItemsOfSelectedGroup = await GetAllItemsOfSelectedGroup(itemStatus)
@@ -116,7 +111,7 @@ export const Item = () => {
                     <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(ItemStatus.CLAIMED)}>Claimed</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
-            {isAuthenticated ? (<Table bordered hover style={{ position: "absolute", top: "130px" }}>
+            <Table bordered hover style={{ position: "absolute", top: "130px" }}>
                 <thead>
                     <tr>
                         {tHeadings.map((headings) => (
@@ -132,7 +127,7 @@ export const Item = () => {
                             ))}
                         </tr>))}
                 </tbody>
-            </Table>) : (<UnAuth />)}
+            </Table>
 
             <AddReport
                 show={showAddForm}

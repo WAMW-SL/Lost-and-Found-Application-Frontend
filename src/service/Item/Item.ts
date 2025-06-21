@@ -27,22 +27,9 @@ interface Report {
     itemStatus: ItemStatus;
 }
 
-const fetchToken = () => {
-    const token = localStorage.getItem("cmjd109")
-    return "Bearer " + token;
-}
-
 export const GetAllReports = async () => {
     try {
-        const response = await axios.get(`
-    ${baseUrl}/getAllReports`,
-            {
-                headers: {
-                    Authorization: fetchToken()
-                }
-            }
-
-        )
+        const response = await axios.get(`${baseUrl}/getAllReports`)
         return response.data
     } catch (error) {
         console.error(error)
@@ -61,12 +48,7 @@ export const GetAllItemsOfSelectedGroup = async (itemStatus: ItemStatus) => {
 
 export const AddNewReport = async (report: Report) => {
     try {
-        const response = await axios.post(`${baseUrl}`, report,
-            {
-                headers: {
-                    Authorization: fetchToken()
-                }
-            });
+        const response = await axios.post(`${baseUrl}`, report)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -76,12 +58,7 @@ export const AddNewReport = async (report: Report) => {
 
 export const DeleteReport = async (reportId: String) => {
     try {
-        await axios.delete(`${baseUrl}/${reportId}`,
-            {
-                headers: {
-                    Authorization: fetchToken()
-                }
-            })
+        await axios.delete(`${baseUrl}/${reportId}`)
     } catch (error) {
         console.error(error)
     }
@@ -89,12 +66,7 @@ export const DeleteReport = async (reportId: String) => {
 
 export const UpdateReport = async (report: Report) => {
     try {
-        await axios.patch(`${baseUrl}`, report,
-            {
-                headers: {
-                    Authorization: fetchToken()
-                }
-            });
+        await axios.patch(`${baseUrl}`, report)
     } catch (error) {
         console.log(error)
     }
