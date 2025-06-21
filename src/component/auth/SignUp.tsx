@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { SignUpReq } from "../../service/AuthProcess/Auth";
 
 interface SignUp {
     // userId: string;
@@ -40,7 +41,8 @@ const handleOnChange = (e :React.ChangeEvent<HTMLInputElement | HTMLSelectElemen
 
 const handleOnSubmit = async() =>{
     console.log(JSON.stringify(signUp))
-    handleReset()
+    await SignUpReq(signUp)
+    handleReset();
 } 
 
   return (

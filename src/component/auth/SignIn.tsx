@@ -27,11 +27,9 @@ const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=>{
  }
 
 const handleOnSubmit = async (e:React.ChangeEvent<HTMLFormElement>) =>{
-    //API req
     e.preventDefault();
     console.log(JSON.stringify(signIn))
-    handleReset()
-} 
+}
   return (
     <>
       <div className="mx-auto w-50 mt-5">
