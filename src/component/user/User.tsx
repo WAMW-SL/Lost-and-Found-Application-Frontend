@@ -1,11 +1,23 @@
+import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { GetAllUsers } from "../../service/User/User";
 
 export const User=()=>{
     const tHeadings:String[]=[
         "User ID","User Name","Role"
     ]
+
+    useEffect(()=>{
+        const loadData=async()=>{
+            const getAllUsers=await GetAllUsers()
+            console.log("Get All Users",getAllUsers)
+        };
+        loadData();
+    },[])
+
+
     return(
-        <Table striped bordered hover variant="dark">
+        <Table striped bordered hover variant="dark"  style={{position:"absolute",top:"130px"}}>
       <thead>
         <tr>
           {tHeadings.map((headings)=>(
