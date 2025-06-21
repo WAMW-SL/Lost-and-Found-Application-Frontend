@@ -38,23 +38,12 @@ export const User=()=>{
         </tr>
       </thead>
       <tbody>
-        {/* <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr> */}
+        {users.map((row)=>(
+                <tr key={row.userId}>
+                    {Object.values(row).map((cell,index)=>(
+                        <td key={index}>{cell}</td>
+                    ))}
+                </tr>))}  
       </tbody>
     </Table>
     );
