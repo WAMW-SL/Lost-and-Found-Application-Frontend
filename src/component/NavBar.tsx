@@ -12,6 +12,8 @@ function NavBar() {
             <Nav.Link as={NavLink} to="/item">Item</Nav.Link>
             <Nav.Link as={NavLink} to="request">Request</Nav.Link>
             <Nav.Link as={NavLink} to="user">User</Nav.Link>
+            <Nav.Link as={NavLink} to="/signin">SignIn</Nav.Link>Add commentMore actions
+            <Nav.Link as={NavLink} to="/signup">SignUp</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
