@@ -5,15 +5,19 @@ import NavBar from './component/NavBar';
 import { Item } from './component/item/Item';
 import { Request } from './component/request/Request';
 import { User } from './component/user/User';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 function App() {
   return (
-    <div className="App">
-      <NavBar/>
-      {/* <Item/> */}
-      {/* <Request/> */}
-      <User/>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Item />} />
+        <Route path="/item" element={<Item />} />
+        <Route path="/request" element={<Request />} />
+        <Route path="/user" element={<User />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
