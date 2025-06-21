@@ -4,6 +4,7 @@ import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 interface UserProps{
     show:boolean
     selectedUser:User
+    handleClose:()=>void
 }
 
 enum UserRole {
@@ -18,7 +19,7 @@ interface User {
     role: UserRole
 }
 
-export const EditUser=({show,selectedUser}:UserProps)=>{
+export const EditUser=({show,selectedUser,handleClose}:UserProps)=>{
     const [user,setUser]=useState<User>({
         userId:"",
         userName:"",
@@ -40,7 +41,7 @@ export const EditUser=({show,selectedUser}:UserProps)=>{
     )
 
     return(
-        <Modal show={show} >
+        <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit User</Modal.Title>
                 </Modal.Header>
@@ -82,7 +83,7 @@ export const EditUser=({show,selectedUser}:UserProps)=>{
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" >
+                    <Button variant="danger" onClick={handleClose}>
                         Close
                     </Button>
                     <Button variant="success" >

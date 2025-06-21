@@ -103,6 +103,7 @@ export const User = () => {
             <EditUser
                 show={showEditForm}
                 selectedUser={selectedUser}
+                handleClose={()=>setShowEditForm(false)}
             />
         </>
     );
