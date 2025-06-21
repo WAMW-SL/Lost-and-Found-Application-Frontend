@@ -62,16 +62,15 @@ export const Item = () => {
 
     const loadData = async () => {
         if (isAuthenticated) {
-            const getAllReports = await GetAllReports()
-            setReports(getAllReports)
-            console.log("Get All Reports", getAllReports)
+            const getAllReports = await GetAllReports();
+            setReports(getAllReports);
+            console.log("Get All Reports", getAllReports);
         }
-        navigate("/signin")
     }
 
     useEffect(() => {
         loadData();
-    }, [])
+    }, [isAuthenticated])
 
     const handleDropdown = async (itemStatus: ItemStatus) => {
         const getAllItemsOfSelectedGroup = await GetAllItemsOfSelectedGroup(itemStatus)

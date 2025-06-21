@@ -1,11 +1,19 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { useAuth } from './auth/AuthProvider';
+import { Button } from 'react-bootstrap';
 
 function NavBar() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleOnLogOut = () => {
+    logout()
+    navigate("/signin")
+
+  }
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -21,6 +29,7 @@ function NavBar() {
               <>
                 <Nav.Link as={NavLink} to="/signin">SignIn</Nav.Link>
                 <Nav.Link as={NavLink} to="/signup">SignUp</Nav.Link>
+                <Button variant="warning" onClick={handleOnLogOut}>Logout</Button>
               </>
             )}
           </Nav>
