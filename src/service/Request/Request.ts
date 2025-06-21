@@ -44,3 +44,11 @@ export const AddNewRequest=async(request:Request)=>{
         console.error(error)
     }
 }
+
+export const DeleteRequest=async(requestId:String)=>{
+    try {
+        await axios.delete(`${baseUrl}/${requestId}`)
+    } catch (error) {
+        console.error(error)
+    }
+}
