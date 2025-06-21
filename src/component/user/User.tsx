@@ -60,11 +60,17 @@ export const User = () => {
         setButton(true)
     }
 
+    const handleUpdatedUser = (updatedUser: User) => {
+        const newUserList = users.map((user) => updatedUser.userId === user.userId ? updatedUser : user)
+        setUsers(newUserList)
+        setButton(true)
+    }
+
     return (
         <>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add User</Button>
             <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button} onClick={() => handleOnDelete(selectedUser.userId)}>Delete</Button>
-            <Button variant="info" style={{ position: "absolute", top: "75px", left: "700px" }} disabled={button} onClick={() => {setShowEditForm(true)}}>Edit</Button>
+            <Button variant="info" style={{ position: "absolute", top: "75px", left: "700px" }} disabled={button} onClick={() => { setShowEditForm(true) }}>Edit</Button>
             <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
                 <Dropdown.Toggle variant="info" id="dropdown-basic">
                     User Role
@@ -103,7 +109,8 @@ export const User = () => {
             <EditUser
                 show={showEditForm}
                 selectedUser={selectedUser}
-                handleClose={()=>setShowEditForm(false)}
+                handleClose={() => setShowEditForm(false)}
+                handleUpdatedUser={handleUpdatedUser}
             />
         </>
     );

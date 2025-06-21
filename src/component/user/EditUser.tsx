@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { UpdateUser } from "../../service/User/User";
 
 interface UserProps{
     show:boolean
     selectedUser:User
     handleClose:()=>void
+    handleUpdatedUser:(updatedUser:User)=>void
 }
 
 enum UserRole {
@@ -19,7 +21,7 @@ interface User {
     role: UserRole
 }
 
-export const EditUser=({show,selectedUser,handleClose}:UserProps)=>{
+export const EditUser=({show,selectedUser,handleClose,handleUpdatedUser}:UserProps)=>{
     const [user,setUser]=useState<User>({
         userId:"",
         userName:"",
@@ -39,6 +41,12 @@ export const EditUser=({show,selectedUser,handleClose}:UserProps)=>{
     useEffect(()=>{
         setUser(selectedUser)},[selectedUser]
     )
+
+    const handleUpdate = async (user:User) => {
+            await UpdateUser(user)
+            handleUpdatedUser(user) 
+            handleClose()           
+    }
 
     return(
         <Modal show={show} onHide={handleClose}>
@@ -86,7 +94,7 @@ export const EditUser=({show,selectedUser,handleClose}:UserProps)=>{
                     <Button variant="danger" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="success" >
+                    <Button variant="success" onClick={()=>handleUpdate(user)}>
                         Update
                     </Button>
                 </Modal.Footer>

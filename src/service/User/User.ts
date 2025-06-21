@@ -51,3 +51,11 @@ export const DeleteUser=async(userId:String)=>{
         console.error(error)
     }
 }
+
+export const UpdateUser=async(user:User)=>{
+    try {
+        await axios.patch(`${baseUrl}`,user)
+    } catch (error) {
+        console.log(error)
+    }
+}
