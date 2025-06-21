@@ -23,6 +23,8 @@ export const Request = () => {
 
   const [requests, setRequests] = useState<Request[]>([])
   const [showAddForm,setShowAddForm]=useState(false)
+  const [button, setButton] = useState(true)
+  const [selectedRequest,setSelectedRequest]=useState<Request>()
 
   const loadData = async () => {
     const getAllRequests = await GetAllRequests()
@@ -44,9 +46,15 @@ export const Request = () => {
         setRequests((prev)=>[...prev,savedRequest])
     }
 
+  const handleSelectedRow = (row: Request) => {
+        setSelectedRequest(row)
+        setButton(false)
+    }
+
   return (
     <>
       <Button variant="info" style={{ position: "absolute", top: "75px", left: "0px" }} onClick={() => setShowAddForm(true)}>Add Request</Button>
+      <Button variant="info" style={{ position: "absolute", top: "75px", left: "500px" }} disabled={button}>Delete</Button>
       <Dropdown style={{ position: "absolute", top: "75px", right: "0px" }}>
         <Dropdown.Toggle variant="info" id="dropdown-basic">
           Request Status
@@ -59,19 +67,19 @@ export const Request = () => {
           <Dropdown.Item href="#/action-3" onClick={() => handleDropdown(RequestStatus.REJECTED)}>REJECTED</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-      <Table striped bordered hover variant="dark" style={{ position: "absolute", top: "130px" }}>
+      <Table bordered hover style={{ position: "absolute", top: "130px" }}>
         <thead>
           <tr>
             {tHeadings.map((headings) => (
-              <th>{headings}</th>
+              <th style={{backgroundColor:"#E0FFFF"}}>{headings}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {requests.map((row) => (
-            <tr key={row.requestId}>
+            <tr key={row.requestId} onClick={() => handleSelectedRow(row)}>
               {Object.values(row).map((cell, index) => (
-                <td key={index}>{cell}</td>
+                <td key={index} style={{backgroundColor:row===selectedRequest?"aqua":"#E0FFFF"}}>{cell}</td>
               ))}
             </tr>))}
         </tbody>
