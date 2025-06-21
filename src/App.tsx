@@ -8,12 +8,12 @@ import { User } from './component/user/User';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { SignIn } from './component/auth/SignIn';
 import { SignUp } from './component/auth/SignUp';
-// import { SignIn } from './component/auth/SignIn';
-// import { SignUp } from './component/auth/SignUp';
+import { AuthProvider } from './component/auth/AuthProvider';
 
 function App() {
   return (
     <BrowserRouter>
+    <AuthProvider>
       <NavBar />
       <Routes>
         <Route path="/" element={<Item />} />
@@ -23,6 +23,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />Add commentMore actions
         <Route path="/signup" element={<SignUp />} />
       </Routes>
+       </AuthProvider>
     </BrowserRouter>
   );
 }
